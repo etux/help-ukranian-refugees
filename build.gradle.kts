@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 buildscript {
 	repositories {
 		mavenCentral()
@@ -81,7 +79,6 @@ tasks {
 	compileKotlin {
 		kotlinOptions {
 			freeCompilerArgs = listOf("-Xjsr305=strict")
-			jvmTarget = "11"
 		}
 	}
 	test {
