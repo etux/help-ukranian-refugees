@@ -1,5 +1,8 @@
 package org.help.ukraine.hosting.domain.model
 
+import javax.persistence.Entity
+
+@Entity
 class Adult(
     val firstName: String = UNDEFINED,
     val middleName: String = UNDEFINED,

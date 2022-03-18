@@ -1,9 +1,16 @@
 package org.help.ukraine.hosting.domain.model
 
-sealed class Space(
-    open val beds: Set<Bed>,
-    open val constraints: Constraints<*>
-) {
+import org.help.ukraine.hosting.domain.jpa.converters.ConstraintsConverter
+import java.util.*
+import javax.persistence.*
+
+@Entity
+class Space(
+    @field:OneToMany val beds: Set<Bed>,
+    @field:Convert(converter = ConstraintsConverter::class)
+    @field:OneToMany val constraints: Constraints
+) : AbstractJpaPersistable<UUID>(), Constrained {
+
     fun coverage(people: People): Int {
         val remainingBeds = beds.toMutableSet()
         val remainingPeople = people.toMutableSet()
@@ -29,7 +36,7 @@ sealed class Space(
 
         val petsNotMatchingConstraints = pets.fold(remainingPets) {
             acc, pet ->
-                when (pet.isAccepted(constraints)) {
+                when (pet.check(constraints)) {
                     is PositiveConstraintResult -> {
                         acc.remove(pet)
                         acc
@@ -42,21 +49,24 @@ sealed class Space(
     }
 }
 
-class Room(
-    override val beds: Set<Bed>,
-    constraints: Constraints<Room>
-): Space(beds = beds,constraints = constraints)
+//@Entity
+//class Room(
+//    override val beds: Set<Bed>,
+//    override val constraints: Constraints<Space>
+//): Space(beds = beds,constraints = constraints)
 
-class Apartment(
-    val rooms: Rooms,
-    constraints: Constraints<Space>
-): Space(beds = rooms.getBedsFromAllRooms(), constraints = constraints )
-
-class House(
-    val rooms: Rooms,
-    constraints: Constraints<Space>
-): Space(beds = rooms.getBedsFromAllRooms(), constraints = constraints )
-
-class Rooms(rooms: Set<Room>): Set<Room> by rooms {
-    fun getBedsFromAllRooms() = this.flatMap { it.beds }.toSet()
-}
+//@Entity
+//class Apartment(
+//    val rooms: Rooms,
+//    @field:Convert(converter = ConstraintsConverter::class) override val constraints: Constraints<Space>
+//): Space(beds = rooms.getBedsFromAllRooms(), constraints = constraints )
+//
+//@Entity
+//class House(
+//    val rooms: Rooms,
+//    @field:Convert(converter = ConstraintsConverter::class) override val constraints: Constraints<Space>
+//): Space(beds = rooms.getBedsFromAllRooms(), constraints = constraints )
+//
+//class Rooms(rooms: Set<Room>): Set<Room> by rooms {
+//    fun getBedsFromAllRooms() = this.flatMap { it.beds }.toSet()
+//}

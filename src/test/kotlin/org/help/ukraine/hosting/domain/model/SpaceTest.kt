@@ -14,7 +14,7 @@ internal class SpaceTest {
     @MethodSource("bedsCoverage")
     @ParameterizedTest
     fun coverage(people: People, beds: Set<Bed>, expectedScore: Int) {
-        assertThat(Room(beds, Constraints()).coverage(people)).isEqualTo(expectedScore)
+        assertThat(Space(beds = beds, constraints = Constraints()).coverage(people)).isEqualTo(expectedScore)
     }
 
     companion object {
@@ -22,12 +22,12 @@ internal class SpaceTest {
         fun bedsCoverage() = Stream.of(
             Arguments.of(
                 People(setOf(Guest(age = 18))),
-                setOf(Bed(type = BedTypes.SingleBed, emptySet())),
+                setOf(Bed(type = BedTypes.SingleBed, assignedPeople = emptySet())),
                 100
             ),
             Arguments.of(
                 People(setOf(Guest(age = 18))),
-                setOf(Bed(type = BedTypes.Crib, emptySet())),
+                setOf(Bed(type = BedTypes.Crib, assignedPeople = emptySet())),
                 0
             )
         )

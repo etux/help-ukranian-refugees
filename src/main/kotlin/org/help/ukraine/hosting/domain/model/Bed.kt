@@ -1,8 +1,15 @@
 package org.help.ukraine.hosting.domain.model
 
+import java.util.*
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.OneToMany
+
+@Entity
 class Bed(
+    @field:Id private val id: UUID = UUID.randomUUID(),
     private val type: BedTypes,
-    private val assignedPeople: Set<Person>
+    @field:OneToMany private val assignedPeople: Set<Person>
 ) {
 
     fun isFull(): Boolean {
@@ -12,8 +19,6 @@ class Bed(
     fun covers(person: Person): Boolean {
         return assignedPeople.contains(person) || (assignedPeople.size + 1 <= type.places && type.ages.intersect(person.ageRange).size > 0)
     }
-
-
 
     fun assign(person: Person) = Bed (
         type = this.type,
