@@ -1,26 +1,25 @@
 package org.help.ukraine.hosting.domain.model
 
-import org.help.ukraine.hosting.services.ServiceType
 import java.util.*
 import javax.persistence.*
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name = "type")
 sealed class Offering(
-    @field:OneToOne open val availability: Availability,
-    @field:Enumerated(value = EnumType.STRING) private val serviceType: ServiceType
+    open val availability: Availability
 ) : AbstractJpaPersistable<UUID>()
 
 @Entity
+@DiscriminatorValue("driving")
 class Driving(
     @field:OneToOne val vehicle: Vehicle,
-    @OneToOne
     override val availability: Availability,
-): Offering(availability = availability, serviceType = ServiceType.DRIVING)
+): Offering(availability = availability)
 
 @Entity
+@DiscriminatorValue("hosting")
 class Hosting(
     @field:OneToOne val space: Space,
-    @OneToOne
     override val availability: Availability
-): Offering(availability = availability, serviceType = ServiceType.HOSTING)
+): Offering(availability = availability)

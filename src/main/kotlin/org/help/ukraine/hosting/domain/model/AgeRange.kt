@@ -25,4 +25,6 @@ sealed class AgeRange(
             else return AdultAge
         }
     }
+
+    object UNDEFINED : AgeRange(IntRange(-1,0))
 }

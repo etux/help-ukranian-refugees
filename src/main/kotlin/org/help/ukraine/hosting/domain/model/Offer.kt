@@ -17,7 +17,11 @@ sealed class Offer<T: Offering>(
 class HostingOffer(
     override val provider: Adult,
     override val offering: Hosting
-): Offer<Hosting>(provider = provider, offering = offering)
+): Offer<Hosting>(
+    provider = provider,
+    offering = offering
+)
+
 //
 //@Entity
 //class DrivingOffer(

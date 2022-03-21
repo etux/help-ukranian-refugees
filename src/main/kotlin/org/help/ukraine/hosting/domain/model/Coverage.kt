@@ -1,12 +1,9 @@
 package org.help.ukraine.hosting.domain.model
 
-class Coverage(
-    val type: CoverageType,
-)
-
-enum class CoverageType {
-    CLOSED,
-    START_OPENED,
-    END_OPENED,
-    OPEN
+abstract class Coverage<T, K>(
+    open val offer: T,
+    open val demand: K,
+    open val score: Int
+) {
+    abstract fun calculate(): Coverage<T,K>
 }

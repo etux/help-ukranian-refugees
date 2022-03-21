@@ -19,21 +19,24 @@ class HostServiceMatcher(
             .score()
     }
 
-    class Execution(private val hostService: HostService, private val request: Request) {
+    class Execution(
+        private val hostService: HostService,
+        private val request: Request
+    ) {
         private val offers: MutableSet<HostingOffer> = mutableSetOf()
 
         fun matchTimeRange(): Execution {
-            offers += hostService.findOfferingsFor(request.timeRange)
+            offers += hostService.findOfferingsFor(request.availability)
             return this
         }
 
         fun matchPeople(): Execution {
-            offers += hostService.findOfferingsFor(request.people)
+            offers += hostService.findOfferingsForGuests(request.guests)
             return this
         }
 
         fun matchPets(): Execution {
-            offers += hostService.findOfferingsFor(request.pets)
+            offers += hostService.findOfferingsForPets(request.pets)
             return this
         }
 
@@ -52,14 +55,12 @@ class HostServiceMatcher(
 
         fun score(availability: Availability): Score {
             return Score(
-                availability.coverage(request.timeRange)
+                availability.coverage(request.availability)
             )
         }
 
         fun score(space: Space): Score {
-            return Score(
-                space.coverage(request.people) + space.coverage(request.pets)
-            )
+            return Score(100)
         }
     }
 
