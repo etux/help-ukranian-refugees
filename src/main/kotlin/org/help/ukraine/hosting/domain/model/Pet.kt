@@ -1,29 +1,25 @@
 package org.help.ukraine.hosting.domain.model
 
-import org.help.ukraine.hosting.domain.jpa.converters.ConstraintsConverter
 import java.util.*
 import javax.persistence.*
 
 @Entity
 class Pet (
-    @field:Enumerated(EnumType.STRING) private val gender: Gender,
-    @field:Enumerated(EnumType.STRING) private val size: PetSize,
-    @field:Convert(converter = ConstraintsConverter::class)
-    @field:ManyToOne val constraints: Constraints,
-): AbstractJpaPersistable<UUID>(), Constrained {
+    @field:Enumerated(EnumType.STRING) val type: Type = Type.UNDEFINED,
+    @field:Enumerated(EnumType.STRING) val gender: Gender = Gender.UNDEFINED,
+    @field:Enumerated(EnumType.STRING) val size: Size = Size.UNDEFINED
+): AbstractJpaPersistable<UUID>(){
 
-    override fun check(check: Constraints): ConstraintResult {
-        val result = check
-            .fold(CombinedConstraintResult(this)) {
-                acc, constraint -> acc.merge(this.check(constraint))
-        }
-        return result
+    enum class Type {
+        CAT, DOG, UNDEFINED
     }
-}
 
-enum class PetSize {
-    SMALL,
-    MEDIUM,
-    BIG,
-    UNDEFINED
+    enum class Size {
+        SMALL,
+        MEDIUM,
+        BIG,
+        UNDEFINED
+    }
+
+
 }

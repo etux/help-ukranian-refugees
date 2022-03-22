@@ -1,11 +1,33 @@
 package org.help.ukraine.hosting.domain.model
 
-import javax.persistence.Entity
+import java.util.UUID
+import javax.persistence.*
 
 @Entity
-class Guest(
-    age: Int,
-    gender: Gender = Gender.UNDEFINED,
-    constraints: Constraints = UNDEFINED_CONSTRAINTS,
-    languages: Set<Language> = UNDEFINED_LANGUAGES
-): Person(ageRange = AgeRange.withAge(age), gender = gender, constraints = constraints, languages = languages)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
+abstract class Guest<T: Person<T>> (
+    @field:ManyToOne val person: T,
+    @field:ManyToOne val request: Request
+): AbstractJpaPersistable<UUID> () {
+
+    fun isCoveredBy(bed: Bed): Boolean {
+        return bed.covers(this)
+    }
+}
+
+@Entity
+@DiscriminatorValue("adult")
+class AdultGuest(
+    @field:ManyToOne(targetEntity = Adult::class)
+    override val person: Adult,
+    override val request: Request
+) : Guest<Adult>(person = person, request = request)
+
+@Entity
+@DiscriminatorValue("minor")
+class ChildGuest(
+    @field:ManyToOne(targetEntity = Minor::class)
+    override val person: Minor,
+    override val request: Request
+) : Guest<Minor>(person = person, request = request)

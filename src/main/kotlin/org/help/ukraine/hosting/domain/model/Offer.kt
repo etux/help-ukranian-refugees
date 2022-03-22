@@ -1,23 +1,25 @@
 package org.help.ukraine.hosting.domain.model
 
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.MappedSuperclass
-import javax.persistence.OneToOne
-
-@MappedSuperclass
-sealed class Offer<T: Offering>(
-    @field:Id private val id: UUID = UUID.randomUUID(),
-    @field:OneToOne open val provider: Adult,
-    @field:OneToOne open val offering: T
-)
+import javax.persistence.*
 
 @Entity
+@DiscriminatorColumn(name = "type")
+abstract class Offer<T: Offering>(
+    @field:ManyToOne val provider: Adult,
+    @field:OneToOne val offering: T
+) : AbstractJpaPersistable<UUID>()
+
+@Entity
+@DiscriminatorValue("hosting")
 class HostingOffer(
-    override val provider: Adult,
-    override val offering: Hosting
-): Offer<Hosting>(provider = provider, offering = offering)
+    @field:ManyToOne override val provider: Adult,
+    @field:OneToOne override val offering: Hosting
+): Offer<Hosting>(
+    provider = provider,
+    offering = offering
+)
+
 //
 //@Entity
 //class DrivingOffer(

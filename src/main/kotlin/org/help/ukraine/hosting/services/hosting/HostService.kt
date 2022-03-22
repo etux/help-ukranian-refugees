@@ -7,7 +7,7 @@ import java.time.Instant
 
 class HostService: MatchProducer {
 
-    fun register(host: Host): Host {
+    fun <T: Person<T>> register(host: Host<T>): Host<T> {
         return host
     }
 
@@ -27,15 +27,15 @@ class HostService: MatchProducer {
         TODO("Not yet implemented")
     }
 
-    fun findOfferingsFor(timeRange: TimeRange): Set<HostingOffer> {
+    fun findOfferingsFor(timeRange: Availability): Set<HostingOffer> {
         TODO("Not yet implemented")
     }
 
-    fun findOfferingsFor(people: People): Set<HostingOffer> {
+    fun findOfferingsForGuests(people: Set<Guest<*>>): Set<HostingOffer> {
         TODO("Not yet implemented")
     }
 
-    fun findOfferingsFor(pets: Set<Pet>): Set<HostingOffer> {
+    fun findOfferingsForPets(pets: Set<Pet>): Set<HostingOffer> {
         TODO("Not yet implemented")
     }
 }
