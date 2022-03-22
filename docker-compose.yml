@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=hosting
+      - POSTGRES_USER=hosting-app
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - "5432:5432"
+  app:
+    image: hosting-image
+    build:
+      context: .
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/hosting
+      - SPRING_DATASOURCE_USERNAME=hosting-app
+      - SPRING_DATASOURCE_PASSWORD=secret
+      - SPRINGDOC_SWAGGERUI_CONFIGURL=http://localhost:8080/v3/api-docs
+      - SPRING_PROFILES_ACTIVE=local
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+

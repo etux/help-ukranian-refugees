@@ -1,9 +1,9 @@
-package org.help.ukraine.hosting.controllers.mappers
+package org.help.ukraine.hosting.presentation.mappers
 
-import org.help.ukraine.hosting.controllers.dtos.AvailabilityDto
-import org.help.ukraine.hosting.controllers.dtos.HostingRequestDto
-import org.help.ukraine.hosting.controllers.dtos.PersonDto
-import org.help.ukraine.hosting.controllers.dtos.PetDto
+import org.help.ukraine.hosting.presentation.dtos.AvailabilityDto
+import org.help.ukraine.hosting.presentation.dtos.HostingRequestDto
+import org.help.ukraine.hosting.presentation.dtos.PersonDto
+import org.help.ukraine.hosting.presentation.dtos.PetDto
 import org.help.ukraine.hosting.domain.model.*
 import org.help.ukraine.hosting.services.ServiceType
 import org.springframework.stereotype.Component

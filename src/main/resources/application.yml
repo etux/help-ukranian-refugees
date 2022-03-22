@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: # jdbc:postgresql://localhost:5432/hosting
+    username: # hosting-app
+    password: # secrect
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    config-url: http://localhost:8080/v3/api-docs

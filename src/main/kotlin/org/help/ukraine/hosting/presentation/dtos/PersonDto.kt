@@ -1,4 +1,4 @@
-package org.help.ukraine.hosting.controllers.dtos
+package org.help.ukraine.hosting.presentation.dtos
 
 data class PersonDto(
     val ageRange: String,

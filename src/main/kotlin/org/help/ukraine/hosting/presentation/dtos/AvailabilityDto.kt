@@ -1,4 +1,4 @@
-package org.help.ukraine.hosting.controllers.dtos
+package org.help.ukraine.hosting.presentation.dtos
 
 import java.time.Instant
 

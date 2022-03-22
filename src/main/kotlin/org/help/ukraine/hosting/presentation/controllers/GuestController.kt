@@ -1,7 +1,7 @@
-package org.help.ukraine.hosting.controllers
+package org.help.ukraine.hosting.presentation.controllers
 
-import org.help.ukraine.hosting.controllers.dtos.HostingRequestDto
-import org.help.ukraine.hosting.controllers.mappers.GuestServiceMapper
+import org.help.ukraine.hosting.presentation.dtos.HostingRequestDto
+import org.help.ukraine.hosting.presentation.mappers.GuestServiceMapper
 import org.help.ukraine.hosting.services.hosting.GuestRequestService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
